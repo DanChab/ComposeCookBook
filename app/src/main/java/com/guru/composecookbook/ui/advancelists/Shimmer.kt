@@ -116,55 +116,71 @@ fun ShimmerList() {
             }
         }
 
-        ShimmerItem(list, dpValue.value, shimmerAnimationType == ShimmerAnimationType.VERTICAL)
-        ShimmerItemBig(list, dpValue.value, shimmerAnimationType == ShimmerAnimationType.VERTICAL)
-        ShimmerItem(list, dpValue.value, shimmerAnimationType == ShimmerAnimationType.VERTICAL)
-        ShimmerItem(list, dpValue.value, shimmerAnimationType == ShimmerAnimationType.VERTICAL)
+        ShimmerItem(list, dpValue.value, shimmerAnimationType == ShimmerAnimationType.VERTICAL, 100, 30)
+        ShimmerItemBig(list, dpValue.value, shimmerAnimationType == ShimmerAnimationType.VERTICAL, 200, 30)
+        ShimmerItem(list, dpValue.value, shimmerAnimationType == ShimmerAnimationType.VERTICAL, 100, 30)
+        ShimmerItem(list, dpValue.value, shimmerAnimationType == ShimmerAnimationType.VERTICAL, 100, 30)
     }
 }
 
 @Composable
-fun ShimmerItem(lists: List<Color>, floatAnim: Float = 0f, isVertical: Boolean) {
-    val brush = if (isVertical) VerticalGradient(lists, 0f, floatAnim) else
+fun ShimmerItem(
+    lists: List<Color>,
+    floatAnim: Float = 0f,
+    isVertical: Boolean,
+    largestSpacerHeight: Int,
+    smallestSpacerHeight: Int,
+) {
+    val largeBrush = if (isVertical) VerticalGradient(lists, 0f, floatAnim) else
         HorizontalGradient(lists, 0f, floatAnim)
+    val smallBrush = if (isVertical) VerticalGradient(lists, 0f, (smallestSpacerHeight.toFloat() / largestSpacerHeight.toFloat()) * floatAnim) else
+        HorizontalGradient(lists, 0f, (smallestSpacerHeight.toFloat() / largestSpacerHeight.toFloat() * floatAnim))
     Row(modifier = Modifier.padding(16.dp)) {
         Spacer(
-            modifier = Modifier.preferredSize(100.dp)
-                .background(brush = brush)
+            modifier = Modifier.preferredSize(largestSpacerHeight.dp)
+                .background(brush = largeBrush)
         )
         Column(modifier = Modifier.padding(8.dp)) {
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .preferredHeight(30.dp)
-                    .padding(8.dp).background(brush = brush)
+                    .padding(8.dp).background(brush = smallBrush)
             )
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .preferredHeight(30.dp)
                     .padding(8.dp)
-                    .background(brush = brush)
+                    .background(brush = smallBrush)
             )
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .preferredHeight(30.dp)
                     .padding(8.dp)
-                    .background(brush = brush)
+                    .background(brush = smallBrush)
             )
         }
     }
 }
 
 @Composable
-fun ShimmerItemBig(lists: List<Color>, floatAnim: Float = 0f, isVertical: Boolean) {
-    val brush = if (isVertical) VerticalGradient(lists, 0f, floatAnim) else
+fun ShimmerItemBig(
+    lists: List<Color>,
+    floatAnim: Float = 0f,
+    isVertical: Boolean,
+    largestSpacerHeight: Int,
+    smallestSpacerHeight: Int,
+) {
+    val largeBrush = if (isVertical) VerticalGradient(lists, 0f, floatAnim) else
         HorizontalGradient(lists, 0f, floatAnim)
+    val smallBrush = if (isVertical) VerticalGradient(lists, 0f, (smallestSpacerHeight.toFloat() / largestSpacerHeight.toFloat()) * floatAnim) else
+        HorizontalGradient(lists, 0f, (smallestSpacerHeight.toFloat() / largestSpacerHeight.toFloat() * floatAnim))
     Column(modifier = Modifier.padding(16.dp)) {
         Spacer(
             modifier = Modifier.fillMaxWidth().preferredSize(200.dp).background(
-                brush = brush
+                brush = largeBrush
             )
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -173,14 +189,14 @@ fun ShimmerItemBig(lists: List<Color>, floatAnim: Float = 0f, isVertical: Boolea
                 .fillMaxWidth()
                 .preferredHeight(30.dp)
                 .padding(vertical = 8.dp)
-                .background(brush = brush)
+                .background(brush = smallBrush)
         )
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
                 .preferredHeight(30.dp)
                 .padding(vertical = 8.dp)
-                .background(brush = brush)
+                .background(brush = smallBrush)
         )
     }
 }
